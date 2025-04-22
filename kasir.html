@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Aplikasi Kasir Sederhana</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    #total {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .btn-reset {
+      background-color: crimson;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-tambah {
+      background-color: seagreen;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Aplikasi Kasir</h1>
+
+<label>Nama Barang:</label>
+<input type="text" id="nama" placeholder="Contoh: Kopi"><br>
+<label>Harga (Rp):</label>
+<input type="number" id="harga" placeholder="Contoh: 10000"><br>
+<label>Jumlah:</label>
+<input type="number" id="jumlah" placeholder="Contoh: 2"><br>
+<button class="btn-tambah" onclick="tambahBarang()">Tambah Barang</button>
+<button class="btn-reset" onclick="resetSemua()">Reset</button>
+
+<table id="tabelBarang">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama Barang</th>
+      <th>Harga (Rp)</th>
+      <th>Jumlah</th>
+      <th>Subtotal (Rp)</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div id="total">Total: Rp 0</div>
+
+<script>
+  let total = 0;
+  let no = 1;
+
+  function tambahBarang() {
+    const nama = document.getElementById("nama").value;
+    const harga = parseInt(document.getElementById("harga").value);
+    const jumlah = parseInt(document.getElementById("jumlah").value);
+    const tbody = document.querySelector("#tabelBarang tbody");
+
+    if (nama === "" || isNaN(harga) || isNaN(jumlah)) {
+      alert("Mohon isi semua data dengan benar!");
+      return;
+    }
+
+    const subtotal = harga * jumlah;
+    total += subtotal;
+
+    const row = `<tr>
+      <td>${no++}</td>
+      <td>${nama}</td>
+      <td>${harga}</td>
+      <td>${jumlah}</td>
+      <td>${subtotal}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+
+    document.getElementById("total").innerText = `Total: Rp ${total}`;
+
+    // Reset input
+    document.getElementById("nama").value = "";
+    document.getElementById("harga").value = "";
+    document.getElementById("jumlah").value = "";
+  }
+
+  function resetSemua() {
+    document.querySelector("#tabelBarang tbody").innerHTML = "";
+    document.getElementById("total").innerText = "Total: Rp 0";
+    total = 0;
+    no = 1;
+  }
+</script>
+
+</body>
+</html>
